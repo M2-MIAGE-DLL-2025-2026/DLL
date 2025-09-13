@@ -7,21 +7,3 @@
 ## Contributors
 
 - Billy, LeGoat, billy.legoat@testpascetteadresse.fr
-- Rami, GOUAL, etudes.ramigoual@gmail.fr
-- Samy FERGUI, samy.fergui.pro@gmail.com
-- Marwane, RACHAD, marwanerachad@gmail.com
-- Mathis, Beauville, mathis.beauville@etud.univ-evry.fr
-- Alexandre ANTUNES MENDES, antunesmendes.alexandre@gmail.com
-- Jimmy, Levacher, levacher.jimmy.pro@gmail.com
-- Sebastien, LAFRIZI, slafrizi@gmail.com
-- Davinson, DOGLAS PRINCE, doglasprincedavinson@gmail.com
-- Théo, POSENEL, theo.posenel@gmail.com
-- Mourad, LARBI MESSAOUDI, moradlarbi1@gmail.com
-- Minh Quang, CAO, caominhquang2002@gmail.com
-- Lamia, HATEM, lamiahatem46@gmail.com
-- Maily, CIAVALDINI, mailyciavaldini@gmail.com
-- Sarra, NEBLI, sarranebli99@gmail.com
-- Sabrina, HASSAIM, hassaimsabrina@gmail.com
-- Maily, CIAVALDINI, mailyciavaldini@gmail.com
-- Mouheb, Felli, mouhebfelli@gmail.com
-- Soumaya, IKHRICHI, ikhrichism@gmail.com
