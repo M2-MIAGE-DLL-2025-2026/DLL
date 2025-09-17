@@ -52,9 +52,7 @@ def place_bateaux(grille: List[List[str]], nb_bateaux: int) -> List[Tuple[int, i
     return bateaux
 
 def choix_utilisateur() -> Tuple[int, int]:
-    """Demande des coordonnées 'ligne,col' et vérifie le format + les bornes.
-    Renvoie (x, y) quand l'entrée est valide.
-    """
+    """Lit une saisie 'ligne,col'et verif si c'est mal ecrit (x, y)."""
     while True:
         val = input("Selectionnez une case (ligne,col): ")
         try:
@@ -65,8 +63,8 @@ def choix_utilisateur() -> Tuple[int, int]:
 
         if 0 <= x < TAILLE and 0 <= y < TAILLE:
             return x, y
-        else:
-            print(f"Coordonnées hors grille. Valeurs autorisées: 0 à {TAILLE - 1}. Réessayez.")
+
+        print(f"Coordonnées hors grille. Valeurs autorisées: 0 à {TAILLE - 1}. Réessayez.")
 
 def jouer() -> None:
     """Boucle de jeu console minimaliste.
