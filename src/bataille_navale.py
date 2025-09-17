@@ -24,6 +24,10 @@ def place_bateaux(grille, NB_BATEAUX):
 def choix_utilisateur():
     val = input("Selectionnez une case (ligne,col): ")
     x, y = map(int, val.split(","))
+    if ( x < 0 or y < 0 ) :
+        print("Veuillez saisir des valeurs strictement positive")
+        return choix_utilisateur()
+        
     return x, y
 
 def jouer():
