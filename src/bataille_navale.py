@@ -3,13 +3,16 @@ import random
 TAILLE = 5
 NB_BATEAUX = 3
 
+
 def cree_grille(size):
     return [["~"] * size for _ in range(size)]
+
 
 def affiche_grille(grille):
     for ligne in grille:
         print(" ".join("~" if case == "B" else case for case in ligne))
     print()
+
 
 def place_bateaux(grille, NB_BATEAUX):
     bateaux = []
@@ -21,10 +24,16 @@ def place_bateaux(grille, NB_BATEAUX):
             bateaux.append((x, y))
     return bateaux
 
+
 def choix_utilisateur():
     val = input("Selectionnez une case (ligne,col): ")
     x, y = map(int, val.split(","))
+    if (x < 0 or y < 0):
+        print("Veuillez saisir des valeurs strictement positive")
+        return choix_utilisateur()
+
     return x, y
+
 
 def jouer():
     print("Bienvenu a la bataille royale!")
@@ -49,6 +58,7 @@ def jouer():
 
     print("\Bravo! Vous avez coule tous les bateaux!")
     affiche_grille(grille)
+
 
 if __name__ == "__main__":
     jouer()
