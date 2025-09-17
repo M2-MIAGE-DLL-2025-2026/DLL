@@ -7,4 +7,4 @@
 ## Contributors
 
 - Billy, LeGoat, billy.legoat@testpascetteadresse.fr
-- Billy, LeGoat, billy.legoat@testpascetteadresse.fr
+- R, B, r.b@univ-evry.fr
