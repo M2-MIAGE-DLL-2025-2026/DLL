@@ -51,17 +51,22 @@ def place_bateaux(grille: List[List[str]], nb_bateaux: int) -> List[Tuple[int, i
             bateaux.append((x, y))
     return bateaux
 
-
 def choix_utilisateur() -> Tuple[int, int]:
-    """Lit et retourne une saisie utilisateur au format "ligne,col".
-
-    Ne fait pas (encore) de validation avancée ; la fonction retourne deux
-    entiers extraits de la saisie.
+    """Demande des coordonnées 'ligne,col' et vérifie le format + les bornes.
+    Renvoie (x, y) quand l'entrée est valide.
     """
-    val = input("Selectionnez une case (ligne,col): ")
-    x, y = map(int, val.split(","))
-    return x, y
+    while True:
+        val = input("Selectionnez une case (ligne,col): ")
+        try:
+            x, y = map(int, val.strip().split(","))
+        except ValueError:
+            print("Entrée invalide. Utilisez le format 'ligne,col' (ex: 0,1).")
+            continue
 
+        if 0 <= x < TAILLE and 0 <= y < TAILLE:
+            return x, y
+        else:
+            print(f"Coordonnées hors grille. Valeurs autorisées: 0 à {TAILLE - 1}. Réessayez.")
 
 def jouer() -> None:
     """Boucle de jeu console minimaliste.
