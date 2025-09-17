@@ -85,7 +85,7 @@ def jouer() -> None:
             print("Rate!")
             grille[x][y] = "O"
 
-    print("Bravo ! Vous avez coulé tous les bateaux !")
+    print("\\Bravo! Vous avez coule tous les bateaux!")
     affiche_grille(grille)
 
 
