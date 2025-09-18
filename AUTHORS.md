@@ -7,4 +7,5 @@
 ## Contributors
 
 - Billy, LeGoat, billy.legoat@testpascetteadresse.fr
-- OUPS
+- Billy, LeGoat, billy.legoat@testpascetteadresse.fr
+- Mounir, AMGHAR, end.munir@gmail.com
