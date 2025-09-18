@@ -22,9 +22,16 @@ def place_bateaux(grille, NB_BATEAUX):
     return bateaux
 
 def choix_utilisateur():
-    val = input("Selectionnez une case (ligne,col): ")
-    x, y = map(int, val.split(","))
-    return x, y
+    while True:
+        try:
+            val = input("Selectionnez une case (ligne,col): ")
+            x, y = map(int, val.split(","))
+            if 0 <= x < TAILLE and 0 <= y < TAILLE:
+                return x, y
+            else:
+                print(f"Coordonnées invalides! Utilisez des valeurs entre 0 et {TAILLE-1}.")
+        except ValueError:
+            print("Format invalide! Utilisez le format: ligne,col (ex: 2,3)")
 
 def jouer():
     print("Bienvenu a la bataille royale!")
