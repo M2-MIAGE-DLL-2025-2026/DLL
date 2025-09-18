@@ -33,11 +33,14 @@ def jouer():
     place_bateaux(grille, NB_BATEAUX)
 
     nb_succes = 0
+    nb_tir = 0
+
     while nb_succes < NB_BATEAUX:
         print("Grille:")
         affiche_grille(grille)
 
         x, y = choix_utilisateur()
+        nb_tir = nb_tir+1
 
         if grille[x][y] == "B":
             print("Touche!")
@@ -48,6 +51,7 @@ def jouer():
             grille[x][y] = "O"
 
     print("\Bravo! Vous avez coule tous les bateaux!")
+    print (f"\Vous avez tiré {nb_tir} durant la partie")
     affiche_grille(grille)
 
 if __name__ == "__main__":
