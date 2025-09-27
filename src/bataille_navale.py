@@ -1,8 +1,4 @@
-"""Module de jeu Bataille Navale (version simple).
-
-Contient des utilitaires pour créer/afficher une grille, placer des bateaux
-et exécuter une boucle de jeu minimale (mode console).
-"""
+"""# Bataille Navale - Version Simple"""
 
 import random
 from typing import List, Tuple
@@ -89,7 +85,7 @@ def jouer() -> None:
             print("Rate!")
             grille[x][y] = "O"
 
-    print("Bravo ! Vous avez coulé tous les bateaux !")
+    print("\\Bravo! Vous avez coule tous les bateaux!")
     affiche_grille(grille)
 
 
