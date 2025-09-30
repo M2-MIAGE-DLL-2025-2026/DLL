@@ -52,15 +52,39 @@ def place_bateaux(grille: List[List[str]], nb_bateaux: int) -> List[Tuple[int, i
     return bateaux
 
 
-def choix_utilisateur() -> Tuple[int, int]:
+def choix_utilisateur(taille: int = TAILLE) -> Tuple[int, int]:
     """Lit et retourne une saisie utilisateur au format "ligne,col".
-
-    Ne fait pas (encore) de validation avancée ; la fonction retourne deux
-    entiers extraits de la saisie.
+    
+    Valide que les coordonnées sont au bon format et dans les limites de la grille.
+    Redemande une saisie tant que l'entrée n'est pas valide.
+    
+    Args:
+        taille: taille de la grille pour valider les limites (par défaut: TAILLE)
+        
+    Returns:
+        Un tuple (x, y) contenant les coordonnées saisies par l'utilisateur.
     """
-    val = input("Selectionnez une case (ligne,col): ")
-    x, y = map(int, val.split(","))
-    return x, y
+    while True:
+        try:
+            val = input("Selectionnez une case (ligne,col): ")
+            
+            # Vérifier le format
+            if "," not in val:
+                print("Format invalide! Utilisez 'ligne,colonne'")
+                continue
+                
+            # Extraire et convertir les valeurs
+            x, y = map(int, val.split(","))
+            
+            # Vérifier les limites
+            if x < 0 or x >= taille or y < 0 or y >= taille:
+                print(f"Coordonnées hors limites! Entrez des valeurs entre 0 et {taille-1}")
+                continue
+                
+            return x, y
+            
+        except ValueError:
+            print("Veuillez entrer uniquement des nombres entiers!")
 
 
 def jouer() -> None:
