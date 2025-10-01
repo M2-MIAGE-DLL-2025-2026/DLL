@@ -96,9 +96,6 @@ def jouer():
 
     # Créer la grille et placer les bateaux
     grille = creer_grille(taille)
-    placer_bateaux(grille, NB_BATEAUX)
-
-    grille = creer_grille(taille)
     nb_bateaux = choix_nombre_bateaux()
     placer_bateaux(grille, nb_bateaux)
 
