@@ -4,6 +4,7 @@ Ce module implémente un jeu de bataille navale simple en Python.
 """
 
 import random
+from typing import List, Tuple
 
 # Constantes globales
 TAILLE_MIN = 3  # Taille minimale autorisée pour la grille
@@ -39,6 +40,7 @@ def placer_bateaux(grille, nombre_bateaux):
     while len(bateaux) < nombre_bateaux:
         x = random.randint(0, taille_grille - 1)
         y = random.randint(0, taille_grille - 1)
+
         if grille[x][y] == "~":
             grille[x][y] = "B"
             bateaux.append((x, y))
@@ -113,6 +115,7 @@ def jouer():
 
     print("\nBravo! Vous avez coulé tous les bateaux!")
     afficher_grille(grille)
+
 
 if __name__ == "__main__":
     jouer()
