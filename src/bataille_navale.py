@@ -4,12 +4,12 @@ Ce module implémente un jeu de bataille navale simple en Python.
 """
 
 import random
-from typing import List, Tuple
 
 # Constantes globales
 TAILLE_MIN = 3  # Taille minimale autorisée pour la grille
 TAILLE_MAX = 10  # Taille maximale autorisée pour la grille
 NB_BATEAUX = 3  # Nombre de bateaux à placer sur la grille
+
 
 def creer_grille(taille):
     """
@@ -19,6 +19,7 @@ def creer_grille(taille):
     """
     return [["~"] * taille for _ in range(taille)]
 
+
 def afficher_grille(grille):
     """
     Affiche la grille en masquant les bateaux.
@@ -27,6 +28,7 @@ def afficher_grille(grille):
     for ligne in grille:
         print(" ".join("~" if case == "B" else case for case in ligne))
     print()
+
 
 def placer_bateaux(grille, nombre_bateaux):
     """
@@ -46,6 +48,7 @@ def placer_bateaux(grille, nombre_bateaux):
             bateaux.append((x, y))
     return bateaux
 
+
 def demander_taille_grille():
     """
     Demande à l'utilisateur de choisir la taille de la grille.
@@ -62,18 +65,26 @@ def demander_taille_grille():
         except ValueError:
             print("Erreur: Veuillez entrer un nombre entier valide.")
 
+
 def demander_coordonnees():
     """
     Demande à l'utilisateur de choisir une case.
     :return: Coordonnées choisies (x, y).
     """
-    while True:
-        try:
-            val = input("Sélectionnez une case (ligne,col): ")
-            x, y = map(int, val.split(","))
-            return x, y
-        except ValueError:
-            print("Entrée invalide. Veuillez entrer deux nombres séparés par une virgule (ex: 1,2)")
+    try:
+        val = input("Selectionnez une case (ligne,col): ")
+        if ',' not in val:
+            print("Format invalide. Utilisez le format: ligne,colonne")
+            return demander_coordonnees()
+        x, y = map(int, val.split(","))
+        if (x < 0 or y < 0):
+            print("Veuillez saisir des valeurs strictement positives")
+            return demander_coordonnees()
+        return x, y
+    except ValueError:
+        print("Format invalide. Entrez deux nombres entiers séparés par une virgule")
+        return demander_coordonnees()
+
 
 def jouer():
     """
@@ -113,7 +124,8 @@ def jouer():
         except IndexError:
             print("Coordonnées invalides. Réessayez.")
 
-    print("\nBravo! Vous avez coulé tous les bateaux!")
+    print("Bravo! Vous avez coule tous les bateaux!")
+
     afficher_grille(grille)
 
 

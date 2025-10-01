@@ -8,7 +8,6 @@ on:
       - "*"
     branches:
       - main
-      - bugfix/*
 
 env:
   MAIN_PYTHON_VERSION: '3.12'
