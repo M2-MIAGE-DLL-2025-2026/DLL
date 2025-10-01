@@ -1,96 +1,120 @@
-"""Module de jeu Bataille Navale (version simple).
-
-Contient des utilitaires pour créer/afficher une grille, placer des bateaux
-et exécuter une boucle de jeu minimale (mode console).
+"""
+Module bataille_navale
+Ce module implémente un jeu de bataille navale simple en Python.
 """
 
 import random
 from typing import List, Tuple
 
-TAILLE = 5
-NB_BATEAUX = 3
+# Constantes globales
+TAILLE_MIN = 3  # Taille minimale autorisée pour la grille
+TAILLE_MAX = 10  # Taille maximale autorisée pour la grille
+NB_BATEAUX = 3  # Nombre de bateaux à placer sur la grille
 
-
-def cree_grille(size: int) -> List[List[str]]:
-    """Crée et retourne une grille carrée de taille `size` initialisée à "~".
-
-    Args:
-        size: dimension de la grille (nombre de lignes/colonnes).
+def creer_grille(taille):
     """
-    return [["~"] * size for _ in range(size)]
+    Crée une grille vide de taille donnée.
+    :param taille: Taille de la grille (entier).
+    :return: Grille sous forme de liste de listes.
+    """
+    return [["~"] * taille for _ in range(taille)]
 
-
-def affiche_grille(grille: List[List[str]]) -> None:
-    """Affiche la grille dans la console en masquant les bateaux.
-
-    Les cases contenant "B" (bateau) sont affichées comme "~" afin de
-    ne pas dévoiler leur position.
+def afficher_grille(grille):
+    """
+    Affiche la grille en masquant les bateaux.
+    :param grille: Grille à afficher.
     """
     for ligne in grille:
         print(" ".join("~" if case == "B" else case for case in ligne))
     print()
 
-
-def place_bateaux(grille: List[List[str]], nb_bateaux: int) -> List[Tuple[int, int]]:
-    """Place aléatoirement `nb_bateaux` bateaux sur la grille.
-
-    Args:
-        grille: matrice préexistante (modifiée en place).
-        nb_bateaux: nombre de bateaux à placer.
-
-    Returns:
-        Liste des positions (x, y) des bateaux placés.
+def placer_bateaux(grille, nombre_bateaux):
     """
-    bateaux: List[Tuple[int, int]] = []
-    size = len(grille)
-    while len(bateaux) < nb_bateaux:
-        x = random.randint(0, size - 1)
-        y = random.randint(0, size - 1)
+    Place un nombre donné de bateaux aléatoirement sur la grille.
+    :param grille: Grille où placer les bateaux.
+    :param nombre_bateaux: Nombre de bateaux à placer.
+    :return: Liste des positions des bateaux.
+    """
+    bateaux = []
+    taille_grille = len(grille)
+    while len(bateaux) < nombre_bateaux:
+        x = random.randint(0, taille_grille - 1)
+        y = random.randint(0, taille_grille - 1)
+
         if grille[x][y] == "~":
             grille[x][y] = "B"
             bateaux.append((x, y))
     return bateaux
 
-
-def choix_utilisateur() -> Tuple[int, int]:
-    """Lit et retourne une saisie utilisateur au format "ligne,col".
-
-    Ne fait pas (encore) de validation avancée ; la fonction retourne deux
-    entiers extraits de la saisie.
+def demander_taille_grille():
     """
-    val = input("Selectionnez une case (ligne,col): ")
-    x, y = map(int, val.split(","))
-    return x, y
-
-
-def jouer() -> None:
-    """Boucle de jeu console minimaliste.
-
-    Place des bateaux puis demande des coordonnées tant que tous les
-    bateaux n'ont pas été touchés.
+    Demande à l'utilisateur de choisir la taille de la grille.
+    - Vérifie que l'entrée est un entier.
+    - Vérifie que la taille est dans les limites définies.
+    :return: Taille de la grille (entier).
     """
-    print("Bienvenu a la bataille royale!")
+    while True:
+        try:
+            taille = int(input(f"Entrez la taille de la grille ({TAILLE_MIN}-{TAILLE_MAX}): "))
+            if TAILLE_MIN <= taille <= TAILLE_MAX:
+                return taille
+            print(f"Erreur: La taille doit être entre {TAILLE_MIN} et {TAILLE_MAX}.")
+        except ValueError:
+            print("Erreur: Veuillez entrer un nombre entier valide.")
 
-    grille = cree_grille(TAILLE)
-    place_bateaux(grille, NB_BATEAUX)
+def demander_coordonnees():
+    """
+    Demande à l'utilisateur de choisir une case.
+    :return: Coordonnées choisies (x, y).
+    """
+    while True:
+        try:
+            val = input("Sélectionnez une case (ligne,col): ")
+            x, y = map(int, val.split(","))
+            return x, y
+        except ValueError:
+            print("Entrée invalide. Veuillez entrer deux nombres séparés par une virgule (ex: 1,2)")
+
+def jouer():
+    """
+    Fonction principale pour jouer à la bataille navale.
+    """
+    print("Bienvenue à la bataille navale!")
+
+    # Demander la taille de la grille à l'utilisateur
+    taille = demander_taille_grille()
+
+    # Créer la grille et placer les bateaux
+    grille = creer_grille(taille)
+    placer_bateaux(grille, NB_BATEAUX)
 
     nb_succes = 0
     while nb_succes < NB_BATEAUX:
         print("Grille:")
-        affiche_grille(grille)
+        afficher_grille(grille)
 
-        x, y = choix_utilisateur()
+        try:
+            x, y = demander_coordonnees()
 
-        if grille[x][y] == "B":
-            print("Touche!")
-            grille[x][y] = "X"
-            nb_succes += 1
-        elif grille[x][y] == "~":
-            print("Rate!")
-            grille[x][y] = "O"
+            # Vérifier si les coordonnées sont valides
+            if not (0 <= x < taille and 0 <= y < taille):
+                print("Coordonnées hors limites. Réessayez.")
+                continue
 
-    print("Bravo ! Vous avez coulé tous les bateaux !")
-    affiche_grille(grille)
+            if grille[x][y] == "B":
+                print("Touché!")
+                grille[x][y] = "X"
+                nb_succes += 1
+            elif grille[x][y] == "~":
+                print("Raté!")
+                grille[x][y] = "O"
+            else:
+                print("Vous avez déjà tiré ici. Réessayez.")
+        except IndexError:
+            print("Coordonnées invalides. Réessayez.")
+
+    print("\nBravo! Vous avez coulé tous les bateaux!")
+    afficher_grille(grille)
 
 
 if __name__ == "__main__":
