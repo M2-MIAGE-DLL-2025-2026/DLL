@@ -28,11 +28,12 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
     contrôles simples (nouvelle partie, révéler pour debug).
     """
 
-    def __init__(self, master, size=5, boats=3):
+    def __init__(self, master, size=5, boats=3, vies=50):
         # maître Tk et paramètres de jeu
         self.master = master
         self.size = size
         self.boats = boats
+        self.vies = vies
         master.title("Bataille Navale - GUI (prototype)")
 
         # Frame principale qui contiendra la grille
@@ -82,12 +83,16 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
             # Bateau touché → marquer 'X' en rouge
             self.buttons[x][y].config(text='X', bg='red')
             self.grille[x][y] = 'X'
-            self.status.set('Touché !')
+            self.status.set(f'Touché ! Il vous reste {self.vies} vies.')
         elif val == '~':
             # Eau → marquer 'O' en bleu clair
             self.buttons[x][y].config(text='O', bg='light blue')
             self.grille[x][y] = 'O'
-            self.status.set('Raté')
+            self.vies -= 1
+            if self.vies > 0:
+                self.status.set(f'Raté ! Il vous reste {self.vies} vies.')
+            else:
+                self.status.set('Raté ! Il ne vous reste plus aucune vie, vous avez perdu.')
         else:
             # Case déjà jouée (X ou O)
             self.status.set('Case déjà jouée')
@@ -96,6 +101,7 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
         """Réinitialiser la grille logique et l'interface pour une nouvelle partie."""
         self.grille = cree_grille(self.size)
         place_bateaux(self.grille, self.boats)
+        self.vies = 50
         for i in range(self.size):
             for j in range(self.size):
                 # Remet le texte du bouton à '~' et la couleur par défaut
