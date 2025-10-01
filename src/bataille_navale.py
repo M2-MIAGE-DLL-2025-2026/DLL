@@ -9,6 +9,7 @@ from typing import List, Tuple
 
 TAILLE = 5
 NB_BATEAUX = 3
+NB_VIES = 5
 
 
 def cree_grille(size: int) -> List[List[str]]:
@@ -73,6 +74,8 @@ def jouer() -> None:
 
     grille = cree_grille(TAILLE)
     place_bateaux(grille, NB_BATEAUX)
+    
+    global NB_VIES
 
     nb_succes = 0
     while nb_succes < NB_BATEAUX:
@@ -82,13 +85,20 @@ def jouer() -> None:
         x, y = choix_utilisateur()
 
         if grille[x][y] == "B":
-            print("Touche!")
+            print(f"Touche! Il vous reste {NB_VIES} vies.")
             grille[x][y] = "X"
             nb_succes += 1
         elif grille[x][y] == "~":
-            print("Rate!")
+            NB_VIES -= 1
             grille[x][y] = "O"
 
+            if NB_VIES > 0:
+                print(f"Rate! Il vous reste {NB_VIES} vies.")
+            else:
+                print("Rate! Il ne vous reste plus aucune vie, vous avez perdu.")
+                affiche_grille(grille)
+                return
+                
     print("Bravo ! Vous avez coulé tous les bateaux !")
     affiche_grille(grille)
 
