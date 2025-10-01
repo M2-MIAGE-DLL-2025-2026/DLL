@@ -9,3 +9,4 @@
 - Billy, LeGoat, billy.legoat@testpascetteadresse.fr
 - OUPS
 - Mathis Bruyere, mathbruu, mathisbruyere@hotmail.com
+- Nathan Bapin, NathanBap, bapin.nathan@gmail.com
