@@ -1,7 +1,6 @@
-"""Module de jeu Bataille Navale (version simple).
-
-Contient des utilitaires pour créer/afficher une grille, placer des bateaux
-et exécuter une boucle de jeu minimale (mode console).
+"""
+Module bataille_navale
+Ce module implémente un jeu de bataille navale simple en Python.
 """
 
 import random
