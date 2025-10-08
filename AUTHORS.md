@@ -11,3 +11,4 @@
 - Roni Basak, GigaYahaa.ronibasak68@gmail.com
 - Justine Kosinski, justine202429, justinekosinski@yahoo.fr
 - Tobias Lepoutre, tobiaslepoutre, lepoutretobias@gmail.com
+- Lyna CHABA, Lynch65, chabalyna21@gmail.com
