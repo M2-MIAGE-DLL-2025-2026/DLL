@@ -10,6 +10,7 @@ from typing import List, Tuple
 TAILLE_MIN = 3  # Taille minimale autorisée pour la grille
 TAILLE_MAX = 10  # Taille maximale autorisée pour la grille
 NB_BATEAUX = 3  # Nombre de bateaux à placer sur la grille
+HISTORIQUE_PARTIE = []
 
 def creer_grille(taille):
     """
@@ -75,6 +76,28 @@ def demander_coordonnees():
         except ValueError:
             print("Entrée invalide. Veuillez entrer deux nombres séparés par une virgule (ex: 1,2)")
 
+def enregistrer_partie(taille, nb_bateaux, nb_succes, nb_tirs):
+    """
+    Enregistre les résultats d'une partie.
+    """
+    partie = {
+        "taille": taille,
+        "bateaux": nb_bateaux,
+        "touches": nb_succes,
+        "tirs_total": nb_tirs
+    }
+    HISTORIQUE_PARTIE.append(partie)
+
+def afficher_stats():
+    if not HISTORIQUE_PARTIE:
+        print("Aucune partie jouée.")
+        return
+    print("\nStatistiques :")
+    for i, partie in enumerate(HISTORIQUE_PARTIE, 1):
+        print(f"Partie {i}: Grille {partie['taille']}x{partie['taille']}, "
+              f"Bateaux: {partie['bateaux']}, Touchés: {partie['touches']}, "
+              f"Tirs: {partie['tirs_total']}")
+
 def jouer():
     """
     Fonction principale pour jouer à la bataille navale.
@@ -89,6 +112,7 @@ def jouer():
     placer_bateaux(grille, NB_BATEAUX)
 
     nb_succes = 0
+    nb_tirs = 0
     while nb_succes < NB_BATEAUX:
         print("Grille:")
         afficher_grille(grille)
@@ -101,6 +125,7 @@ def jouer():
                 print("Coordonnées hors limites. Réessayez.")
                 continue
 
+            nb_tirs += 1
             if grille[x][y] == "B":
                 print("Touché!")
                 grille[x][y] = "X"
@@ -115,6 +140,8 @@ def jouer():
 
     print("\nBravo! Vous avez coulé tous les bateaux!")
     afficher_grille(grille)
+    enregistrer_partie(taille, NB_BATEAUX, nb_succes, nb_tirs)
+    afficher_stats()
 
 
 if __name__ == "__main__":
