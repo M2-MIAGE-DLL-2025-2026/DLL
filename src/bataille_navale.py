@@ -64,16 +64,32 @@ def demander_taille_grille():
 
 def demander_coordonnees():
     """
-    Demande à l'utilisateur de choisir une case.
-    :return: Coordonnées choisies (x, y).
+    Demande au user de choisir une case.
+    Peut aussi saisir 'retry' pour recommencer ou 'exit' pour quitter instead of les coordonnees .
     """
     while True:
+        val = input("Sélectionnez une case (ligne,col) ou tapez 'retry' ou 'exit' : ").strip().lower()
+        if val == "retry":
+            return "retry"
+        elif val == "exit":
+            return "exit"
         try:
-            val = input("Sélectionnez une case (ligne,col): ")
             x, y = map(int, val.split(","))
             return x, y
         except ValueError:
-            print("Entrée invalide. Veuillez entrer deux nombres séparés par une virgule (ex: 1,2)")
+            print("Entrée invalide. Exemple valide : 1,2")
+
+
+def confirmation_retry_exit(message):
+    """demander une confirmation yes/no au user pour quitter(exit) ou recommencer(retry)"""
+    while True:
+        rep = input(f"{message} (yes/no) : ").strip().lower()
+        if rep in ["yes", "y"]:
+            return True
+        elif rep in ["no", "n"]:
+            return False
+        else:
+            print("Réponse invalide. Tapez 'yes' ou 'no'.")
 
 def jouer():
     """
@@ -94,7 +110,20 @@ def jouer():
         afficher_grille(grille)
 
         try:
-            x, y = demander_coordonnees()
+            coord = demander_coordonnees()
+            if coord == "retry":
+                if confirmation_retry_exit("Voulez-vous vraiment recommencer le jeu?"):
+                    return True
+                else:
+                    continue
+            elif coord == "exit":
+                if confirmation_retry_exit("Voulez-vous vraiment quitter le jeu?"):
+                    print("Merci d'avoir joué! Au revoir! 👋")
+                    return False
+                else:
+                    continue
+    
+            x, y = coord
 
             # Vérifier si les coordonnées sont valides
             if not (0 <= x < taille and 0 <= y < taille):
@@ -102,20 +131,32 @@ def jouer():
                 continue
 
             if grille[x][y] == "B":
-                print("Touché!")
+                print("Touché! 🎯")
                 grille[x][y] = "X"
                 nb_succes += 1
             elif grille[x][y] == "~":
-                print("Raté!")
+                print("Raté! ❌")
                 grille[x][y] = "O"
             else:
                 print("Vous avez déjà tiré ici. Réessayez.")
         except IndexError:
             print("Coordonnées invalides. Réessayez.")
 
-    print("\nBravo! Vous avez coulé tous les bateaux!")
+    print("\nBravo! Vous avez coulé tous les bateaux! 🎉")
     afficher_grille(grille)
+    
+    if confirmation_retry_exit("Voulez-vous rejouer ?"):
+        return True
+    else:
+        return False
 
-
+def main():
+    """boucle principale pour gérer le replay."""
+    while True:
+        rejouer = jouer()
+        if not rejouer:
+            break
+        
+        
 if __name__ == "__main__":
-    jouer()
+    main()
