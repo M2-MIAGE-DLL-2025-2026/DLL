@@ -10,6 +10,8 @@ from typing import List, Tuple
 TAILLE_MIN = 3  # Taille minimale autorisée pour la grille
 TAILLE_MAX = 10  # Taille maximale autorisée pour la grille
 NB_BATEAUX = 3  # Nombre de bateaux à placer sur la grille
+NB_VIES = 5
+
 
 def creer_grille(taille):
     """
@@ -87,33 +89,32 @@ def jouer():
     # Créer la grille et placer les bateaux
     grille = creer_grille(taille)
     placer_bateaux(grille, NB_BATEAUX)
+    
+    global NB_VIES
 
     nb_succes = 0
     while nb_succes < NB_BATEAUX:
         print("Grille:")
         afficher_grille(grille)
 
-        try:
-            x, y = demander_coordonnees()
+        x, y = demander_coordonnees()
 
-            # Vérifier si les coordonnées sont valides
-            if not (0 <= x < taille and 0 <= y < taille):
-                print("Coordonnées hors limites. Réessayez.")
-                continue
+        if grille[x][y] == "B":
+            print(f"Touche! Il vous reste {NB_VIES} vies.")
+            grille[x][y] = "X"
+            nb_succes += 1
+        elif grille[x][y] == "~":
+            NB_VIES -= 1
+            grille[x][y] = "O"
 
-            if grille[x][y] == "B":
-                print("Touché!")
-                grille[x][y] = "X"
-                nb_succes += 1
-            elif grille[x][y] == "~":
-                print("Raté!")
-                grille[x][y] = "O"
+            if NB_VIES > 0:
+                print(f"Rate! Il vous reste {NB_VIES} vies.")
             else:
-                print("Vous avez déjà tiré ici. Réessayez.")
-        except IndexError:
-            print("Coordonnées invalides. Réessayez.")
-
-    print("\nBravo! Vous avez coulé tous les bateaux!")
+                print("Rate! Il ne vous reste plus aucune vie, vous avez perdu.")
+                afficher_grille(grille)
+                return
+                
+    print("Bravo ! Vous avez coulé tous les bateaux !")
     afficher_grille(grille)
 
 
