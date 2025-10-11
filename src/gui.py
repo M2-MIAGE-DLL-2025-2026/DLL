@@ -11,11 +11,11 @@ import sys
 # Importer la logique du jeu depuis le module existant
 
 try:
-    from bataille_navale import cree_grille, place_bateaux
+    from bataille_navale import creer_grille, placer_bateaux
 except ImportError:
     # si le chemin de module est différent (p.ex. exécution depuis racine),
     # on tente l'import via le package src
-    from src.bataille_navale import cree_grille, place_bateaux
+    from src.bataille_navale import creer_grille, placer_bateaux
 
 
 class GuiApp:  # pylint: disable=too-many-instance-attributes
@@ -28,11 +28,12 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
     contrôles simples (nouvelle partie, révéler pour debug).
     """
 
-    def __init__(self, master, size=5, boats=3):
+    def __init__(self, master, size=5, boats=3, vies=5):
         # maître Tk et paramètres de jeu
         self.master = master
         self.size = size
         self.boats = boats
+        self.vies = vies
         master.title("Bataille Navale - GUI (prototype)")
 
         # Frame principale qui contiendra la grille
@@ -45,8 +46,8 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
 
     # Liste 2D de boutons (widgets) et initialisation de la grille logique
         self.buttons = []
-        self.grille = cree_grille(self.size)  # crée une matrice size x size
-        place_bateaux(self.grille, self.boats)  # place aléatoirement les bateaux
+        self.grille = creer_grille(self.size)  # crée une matrice size x size
+        placer_bateaux(self.grille, self.boats)  # place aléatoirement les bateaux
 
     # Création des boutons pour chaque case.
         for i in range(self.size):
@@ -82,20 +83,25 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
             # Bateau touché → marquer 'X' en rouge
             self.buttons[x][y].config(text='X', bg='red')
             self.grille[x][y] = 'X'
-            self.status.set('Touché !')
+            self.status.set(f'Touché !')
         elif val == '~':
             # Eau → marquer 'O' en bleu clair
             self.buttons[x][y].config(text='O', bg='light blue')
             self.grille[x][y] = 'O'
-            self.status.set('Raté')
+            self.vies -= 1
+            if self.vies > 0:
+                self.status.set(f'Raté, il vous reste {self.vies} vies.')
+            else:
+                self.status.set('Rate! Il ne vous reste plus aucune vie, vous avez perdu.')
         else:
             # Case déjà jouée (X ou O)
             self.status.set('Case déjà jouée')
 
     def new_game(self):
         """Réinitialiser la grille logique et l'interface pour une nouvelle partie."""
-        self.grille = cree_grille(self.size)
-        place_bateaux(self.grille, self.boats)
+        self.grille = creer_grille(self.size)
+        placer_bateaux(self.grille, self.boats)
+        self.vies = 50
         for i in range(self.size):
             for j in range(self.size):
                 # Remet le texte du bouton à '~' et la couleur par défaut
