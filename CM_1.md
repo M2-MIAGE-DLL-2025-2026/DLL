@@ -63,10 +63,10 @@ Focalisation sur les problèmes associés au développement de logiciel libre.
 **Cours**: 7 séances de 3 heures (pas de TD / TP)
 <br/>
 
-**Planning**: 10/09 + 17/09 + 01/10 + 08/10 + 15/10 + 05/11 + 18/11
+**Planning**: 10/09 + 17/09 + 01/10 + 08/10 + 15/10 + 03/11 + 05/11
 <br/>
 
-**Exercice pratique**: contribution à https://github.com/UEVE-DLL-2024-2025/DLL
+**Exercice pratique**: contribution à https://github.com/M2-MIAGE-DLL-2025-2026/DLL
 <br/>
 
 **Examen**: 03/12
