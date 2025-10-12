@@ -62,26 +62,24 @@ def demander_taille_grille():
         except ValueError:
             print("Erreur: Veuillez entrer un nombre entier valide.")
 
+
 def demander_coordonnees(taille: int = TAILLE_MAX) -> Tuple[int, int]:
     """Lit et retourne une saisie utilisateur au format "ligne,col".
-    
+
     Valide que les coordonnées sont au bon format et dans les limites de la grille.
     Redemande une saisie tant que l'entrée n'est pas valide.
-    
     Args:
         taille: taille de la grille pour valider les limites (par défaut: TAILLE)
-        
     Returns:
-        Un tuple (x, y) contenant les coordonnées saisies par l'utilisateur.
+    Un tuple (x, y) contenant les coordonnées saisies par l'utilisateur.
+    Peut aussi saisir 'retry' pour recommencer ou 'exit' pour quitter instead of les coordonnees .
     """
     while True:
+        val = input("Sélectionnez une case ligne,col ou 'retry' ou 'exit' : ").strip().lower()
+        if val in ("retry", "exit"):
+            return val
+        # Extraire et convertir les valeurs
         try:
-            val = input("Selectionnez une case (ligne,col): ")
-            # Vérifier le format
-            if "," not in val:
-                print("Format invalide! Utilisez 'ligne,colonne'")
-                continue
-            # Extraire et convertir les valeurs
             x, y = map(int, val.split(","))
             # Vérifier les limites
             if x < 0 or x >= taille or y < 0 or y >= taille:
@@ -89,7 +87,24 @@ def demander_coordonnees(taille: int = TAILLE_MAX) -> Tuple[int, int]:
                 continue
             return x, y
         except ValueError:
-            print("Veuillez entrer uniquement des nombres entiers!")
+            print("Entrée invalide. Exemple valide : 1,2")
+
+
+def confirmation_retry_exit(message):
+    """Demande une confirmation yes/no au user pour quitter(exit) ou recommencer(retry) le jeu.
+    Args:
+        message: message à afficher pour la confirmation.
+    Returns:
+        True si l'utilisateur confirme (yes), False sinon (no).
+    """
+    while True:
+        rep = input(f"{message} (yes/no) : ").strip().lower()
+        if rep in ["yes", "y"]:
+            return True
+        if rep in ["no", "n"]:
+            return False
+        print("Réponse invalide. Tapez 'yes' ou 'no'.")
+
 
 
 def jouer() -> None:
@@ -113,7 +128,17 @@ def jouer() -> None:
         afficher_grille(grille)
 
         try:
-            x, y = demander_coordonnees()
+            coord = demander_coordonnees()
+            if coord == "retry":
+                if confirmation_retry_exit("Voulez-vous vraiment recommencer le jeu?"):
+                    return True
+                continue
+            if coord == "exit":
+                if confirmation_retry_exit("Voulez-vous vraiment quitter le jeu?"):
+                    print("Merci d'avoir joué! Au revoir! 👋")
+                    return False
+                continue
+            x, y = coord
 
             # Vérifier si les coordonnées sont valides
             if not (0 <= x < taille and 0 <= y < taille):
@@ -121,20 +146,29 @@ def jouer() -> None:
                 continue
 
             if grille[x][y] == "B":
-                print("Touché!")
+                print("Touché! 🎯")
                 grille[x][y] = "X"
                 nb_succes += 1
             elif grille[x][y] == "~":
-                print("Raté!")
+                print("Raté! ❌")
                 grille[x][y] = "O"
             else:
                 print("Vous avez déjà tiré ici. Réessayez.")
         except IndexError:
             print("Coordonnées invalides. Réessayez.")
 
-    print("\nBravo! Vous avez coulé tous les bateaux!")
+    print("\nBravo! Vous avez coulé tous les bateaux! 🎉")
     afficher_grille(grille)
+    if confirmation_retry_exit("Voulez-vous rejouer ?"):
+        return True
+    return False
 
+def main():
+    """boucle principale pour gérer le replay."""
+    while True:
+        rejouer = jouer()
+        if not rejouer:
+            break
 
 if __name__ == "__main__":
-    jouer()
+    main()
