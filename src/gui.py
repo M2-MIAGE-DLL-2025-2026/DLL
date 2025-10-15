@@ -11,11 +11,11 @@ import sys
 # Importer la logique du jeu depuis le module existant
 
 try:
-    from bataille_navale import cree_grille, place_bateaux
+    from bataille_navale import creer_grille, placer_bateaux
 except ImportError:
     # si le chemin de module est différent (p.ex. exécution depuis racine),
     # on tente l'import via le package src
-    from src.bataille_navale import cree_grille, place_bateaux
+    from src.bataille_navale import creer_grille, placer_bateaux
 
 
 class GuiApp:  # pylint: disable=too-many-instance-attributes
@@ -45,8 +45,8 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
 
     # Liste 2D de boutons (widgets) et initialisation de la grille logique
         self.buttons = []
-        self.grille = cree_grille(self.size)  # crée une matrice size x size
-        place_bateaux(self.grille, self.boats)  # place aléatoirement les bateaux
+        self.grille = creer_grille(self.size)  # crée une matrice size x size
+        placer_bateaux(self.grille, self.boats)  # place aléatoirement les bateaux
 
     # Création des boutons pour chaque case.
         for i in range(self.size):
@@ -94,8 +94,8 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
 
     def new_game(self):
         """Réinitialiser la grille logique et l'interface pour une nouvelle partie."""
-        self.grille = cree_grille(self.size)
-        place_bateaux(self.grille, self.boats)
+        self.grille = creer_grille(self.size)
+        placer_bateaux(self.grille, self.boats)
         for i in range(self.size):
             for j in range(self.size):
                 # Remet le texte du bouton à '~' et la couleur par défaut
