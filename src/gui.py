@@ -6,16 +6,31 @@ et sert de point de départ pour améliorer l'UX.
 """
 
 import tkinter as tk
+from tkinter import messagebox
 import sys
 
 # Importer la logique du jeu depuis le module existant
 
 try:
-    from bataille_navale import cree_grille, place_bateaux
+    from bataille_navale import (
+        creer_grille,
+        placer_bateaux,
+        sauvegarder_partie,
+        charger_partie,
+        supprimer_sauvegarde,
+        NB_BATEAUX,
+    )
 except ImportError:
     # si le chemin de module est différent (p.ex. exécution depuis racine),
     # on tente l'import via le package src
-    from src.bataille_navale import cree_grille, place_bateaux
+    from src.bataille_navale import (
+        creer_grille,
+        placer_bateaux,
+        sauvegarder_partie,
+        charger_partie,
+        supprimer_sauvegarde,
+        NB_BATEAUX,
+    )
 
 
 class GuiApp:  # pylint: disable=too-many-instance-attributes
@@ -43,12 +58,33 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
         self.status = tk.StringVar()
         self.status.set("Prêt")
 
-    # Liste 2D de boutons (widgets) et initialisation de la grille logique
+        # Etat logique
+        self.grille = None
         self.buttons = []
-        self.grille = cree_grille(self.size)  # crée une matrice size x size
-        place_bateaux(self.grille, self.boats)  # place aléatoirement les bateaux
+        self.bateaux = []
+        self.nb_coules = 0
 
-    # Création des boutons pour chaque case.
+        # Reprise de partie si disponible
+        partie = charger_partie()
+        if partie is not None and messagebox.askyesno(
+            "Reprendre la partie",
+            "Une partie sauvegardée a été trouvée. Voulez-vous la reprendre?",
+        ):
+            grille_s, bateaux_s, nb_coules_s, taille_s = partie
+            # Ajuster la taille de la GUI à la sauvegarde
+            self.size = taille_s
+            self.grille = grille_s
+            self.bateaux = bateaux_s
+            self.nb_coules = nb_coules_s
+        else:
+            # Nouvelle partie
+            self.grille = creer_grille(self.size)
+            self.bateaux = placer_bateaux(self.grille, self.boats)
+            self.nb_coules = 0
+            # Si l'utilisateur a refusé la reprise, nettoyer l'ancienne sauvegarde
+            supprimer_sauvegarde()
+
+        # Création des boutons pour chaque case.
         for i in range(self.size):
             row = []
             for j in range(self.size):
@@ -70,6 +106,9 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
         self.new_button = tk.Button(self.controls, text="Nouvelle partie", command=self.new_game)
         self.new_button.pack(side=tk.LEFT, padx=5)
 
+        # Mettre l'interface en cohérence avec l'état courant
+        self.mettre_a_jour_interface()
+
 
     def on_click(self, x, y):
         """Gérer un clic utilisateur sur la case (x, y).
@@ -82,25 +121,48 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
             # Bateau touché → marquer 'X' en rouge
             self.buttons[x][y].config(text='X', bg='red')
             self.grille[x][y] = 'X'
-            self.status.set('Touché !')
+            self.nb_coules += 1
+            self.status.set(f"Touché ! ({self.nb_coules}/{self.boats})")
+            # Sauvegarde
+            sauvegarder_partie(self.grille, self.bateaux, self.nb_coules, self.size)
+            # Victoire ?
+            if self.nb_coules >= self.boats:
+                messagebox.showinfo("Victoire", "Bravo! Vous avez coulé tous les bateaux!")
+                supprimer_sauvegarde()
         elif val == '~':
             # Eau → marquer 'O' en bleu clair
             self.buttons[x][y].config(text='O', bg='light blue')
             self.grille[x][y] = 'O'
             self.status.set('Raté')
+            # Sauvegarde
+            sauvegarder_partie(self.grille, self.bateaux, self.nb_coules, self.size)
         else:
             # Case déjà jouée (X ou O)
             self.status.set('Case déjà jouée')
 
     def new_game(self):
         """Réinitialiser la grille logique et l'interface pour une nouvelle partie."""
-        self.grille = cree_grille(self.size)
-        place_bateaux(self.grille, self.boats)
+        supprimer_sauvegarde()
+        self.grille = creer_grille(self.size)
+        self.bateaux = placer_bateaux(self.grille, self.boats)
+        self.nb_coules = 0
         for i in range(self.size):
             for j in range(self.size):
                 # Remet le texte du bouton à '~' et la couleur par défaut
                 self.buttons[i][j].config(text='~', bg='SystemButtonFace')
         self.status.set('Nouvelle partie')
+
+    def mettre_a_jour_interface(self):
+        """Met à jour l'UI selon l'état de la grille."""
+        for i in range(self.size):
+            for j in range(self.size):
+                val = self.grille[i][j]
+                if val == 'X':
+                    self.buttons[i][j].config(text='X', bg='red')
+                elif val == 'O':
+                    self.buttons[i][j].config(text='O', bg='light blue')
+                else:
+                    self.buttons[i][j].config(text='~', bg='SystemButtonFace')
 
 
 
