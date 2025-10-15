@@ -13,4 +13,4 @@
 - Tobias Lepoutre, tobiaslepoutre, lepoutretobias@gmail.com
 - Lyna CHABA, Lynch65, chabalyna21@gmail.com
 - Zineb Houmaidi, Zineb06, houmaidi.zineb@gmail.com
-- Fake author to be removed
+- Flavien Lankai-Mills, FlavienLM, flavienlankai@gmail.com
