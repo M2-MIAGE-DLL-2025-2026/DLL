@@ -10,6 +10,7 @@ from typing import Tuple
 TAILLE_MIN = 3  # Taille minimale autorisée pour la grille
 TAILLE_MAX = 10  # Taille maximale autorisée pour la grille
 NB_BATEAUX = 3  # Nombre de bateaux à placer sur la grille
+HISTORIQUE_PARTIE = []
 
 def creer_grille(taille):
     """
@@ -87,8 +88,7 @@ def demander_coordonnees(taille: int = TAILLE_MAX) -> Tuple[int, int]:
                 continue
             return x, y
         except ValueError:
-            print("Entrée invalide. Exemple valide : 1,2")
-
+            print("Entrée invalide. Veuillez entrer deux nombres séparés par une virgule (ex: 1,2)")
 
 def confirmation_retry_exit(message):
     """Demande une confirmation yes/no au user pour quitter(exit) ou recommencer(retry) le jeu.
@@ -105,13 +105,31 @@ def confirmation_retry_exit(message):
             return False
         print("Réponse invalide. Tapez 'yes' ou 'no'.")
 
+def enregistrer_partie(taille, nb_bateaux, nb_succes, nb_tirs):
+    """
+    Enregistre les résultats d'une partie.
+    """
+    partie = {
+        "taille": taille,
+        "bateaux": nb_bateaux,
+        "touches": nb_succes,
+        "tirs_total": nb_tirs
+    }
+    HISTORIQUE_PARTIE.append(partie)
 
+def afficher_stats():
+    if not HISTORIQUE_PARTIE:
+        print("Aucune partie jouée.")
+        return
+    print("\nStatistiques :")
+    for i, partie in enumerate(HISTORIQUE_PARTIE, 1):
+        print(f"Partie {i}: Grille {partie['taille']}x{partie['taille']}, "
+              f"Bateaux: {partie['bateaux']}, Touchés: {partie['touches']}, "
+              f"Tirs: {partie['tirs_total']}")
 
-def jouer() -> None:
-    """Boucle de jeu console minimaliste.
-
-    Place des bateaux puis demande des coordonnées tant que tous les
-    bateaux n'ont pas été touchés.
+def jouer():
+    """
+    Fonction principale pour jouer à la bataille navale.
     """
     print("Bienvenue à la bataille navale!")
 
@@ -123,6 +141,7 @@ def jouer() -> None:
     placer_bateaux(grille, NB_BATEAUX)
 
     nb_succes = 0
+    nb_tirs = 0
     while nb_succes < NB_BATEAUX:
         print("Grille:")
         afficher_grille(grille)
@@ -145,6 +164,7 @@ def jouer() -> None:
                 print("Coordonnées hors limites. Réessayez.")
                 continue
 
+            nb_tirs += 1
             if grille[x][y] == "B":
                 print("Touché! 🎯")
                 grille[x][y] = "X"
@@ -158,6 +178,9 @@ def jouer() -> None:
             print("Coordonnées invalides. Réessayez.")
 
     print("\nBravo! Vous avez coulé tous les bateaux! 🎉")
+    
+    enregistrer_partie(taille, NB_BATEAUX, nb_succes, nb_tirs)
+    afficher_stats()
     afficher_grille(grille)
     if confirmation_retry_exit("Voulez-vous rejouer ?"):
         return True
@@ -169,6 +192,7 @@ def main():
         rejouer = jouer()
         if not rejouer:
             break
+
 
 if __name__ == "__main__":
     main()
