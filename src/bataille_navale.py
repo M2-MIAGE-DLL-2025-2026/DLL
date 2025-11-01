@@ -62,6 +62,12 @@ def demander_taille_grille():
         except ValueError:
             print("Erreur: Veuillez entrer un nombre entier valide.")
 
+def demander_nombre_bateaux() -> int:
+    """
+    Demande à l'utilisateur de choisir le nombre de bateaux avant de commencer la partie.
+    Retourne simplement la valeur entrée par l'utilisateur.
+    """
+    return int(input("Entrez le nombre de bateaux (nombre recommandé: 3) : "))
 
 def demander_coordonnees(taille: int = TAILLE_MAX) -> Tuple[int, int]:
     """Lit et retourne une saisie utilisateur au format "ligne,col".
@@ -118,12 +124,15 @@ def jouer() -> None:
     # Demander la taille de la grille à l'utilisateur
     taille = demander_taille_grille()
 
+    # Demander le nombre de bateaux à l'utilisateur
+    nb_bateaux = demander_nombre_bateaux()
+
     # Créer la grille et placer les bateaux
     grille = creer_grille(taille)
-    placer_bateaux(grille, NB_BATEAUX)
+    placer_bateaux(grille, nb_bateaux)
 
     nb_succes = 0
-    while nb_succes < NB_BATEAUX:
+    while nb_succes < nb_bateaux:
         print("Grille:")
         afficher_grille(grille)
 
