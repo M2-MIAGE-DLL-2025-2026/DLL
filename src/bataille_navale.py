@@ -132,6 +132,9 @@ def jouer() -> None:
     placer_bateaux(grille, nb_bateaux)
 
     nb_succes = 0
+    # === Ajout du compteur de coups ===
+    nb_coups = 0
+
     while nb_succes < nb_bateaux:
         print("Grille:")
         afficher_grille(grille)
@@ -158,15 +161,18 @@ def jouer() -> None:
                 print("Touché! 🎯")
                 grille[x][y] = "X"
                 nb_succes += 1
+                nb_coups += 1  # on compte ce tir
             elif grille[x][y] == "~":
                 print("Raté! ❌")
                 grille[x][y] = "O"
+                nb_coups += 1  # on compte ce tir
             else:
                 print("Vous avez déjà tiré ici. Réessayez.")
         except IndexError:
             print("Coordonnées invalides. Réessayez.")
 
     print("\nBravo! Vous avez coulé tous les bateaux! 🎉")
+    print(f"Partie terminée en {nb_coups} coups !")  # message final demandé
     afficher_grille(grille)
     if confirmation_retry_exit("Voulez-vous rejouer ?"):
         return True
