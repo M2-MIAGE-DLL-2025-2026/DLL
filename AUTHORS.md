@@ -12,3 +12,6 @@
 - Justine Kosinski, justine202429, justinekosinski@yahoo.fr
 - Tobias Lepoutre, tobiaslepoutre, lepoutretobias@gmail.com
 - Lyna CHABA, Lynch65, chabalyna21@gmail.com
+- Zineb Houmaidi, Zineb06, houmaidi.zineb@gmail.com
+- Flavien Lankai-Mills, FlavienLM, flavienlankai@gmail.com
+- Ines Bagou, ines-bg, inesbagou45@gmail.com
