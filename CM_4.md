@@ -636,7 +636,7 @@ Les consensus implicites apparaissent dans les décisions non controversées :
 
 - correction de bogue
   - le commit en lui même est une proposition de consensus
-  - dans le tête du développeur il signifie *j"e suppose qu’on est tous d’accord que ce bogue doit être corrigé, et que c’est la manière de le faire"*
+  - dans le tête du développeur il signifie *"je suppose qu’on est tous d’accord que ce bogue doit être corrigé, et que c’est la manière de le faire"*
 
 - la documentation d'une interface, ...
 
@@ -918,7 +918,7 @@ Doit-on retirer les droits de commit aux commiters dormant ?
 
 :thought_balloon: **Conviction personnelle** : non pour deux raisons :
 - Cela **peut inciter les commiters à valider des modifications inutiles** (mais acceptables) pour ne pas être considéré inactif
-- Cela **ne sert à rien de retirer les droits**. Le jugement se détériore en étant absent d'un projet ? Le commiter ne serait pas capable de comprendre qu'il est décnnecté du projet ?
+- Cela **ne sert à rien de retirer les droits**. Le jugement se détériore en étant absent d'un projet ? Le commiter ne serait pas capable de comprendre qu'il est déconnecté du projet ?
 
 :thought_balloon:  Un peu le même principe que le télétravail et les jours pour le faire
 
@@ -1120,7 +1120,7 @@ Le rôle du responsable de documentation est d'aider à **maintenir la documenta
 
 # Responsable de documentation
 
-En résumé, les exigences de gestion des correctifs de document et le fait que la base de code doit être surveillée pour maintenir la documentation amènent au besoin d'avoir une personne / équipe dédiée à cette tâche !
+En résumé, les exigences de gestion des correctifs de documentation et le fait que la base de code doit être surveillée pour maintenir la documentation amènent au besoin d'avoir une personne / équipe dédiée à cette tâche !
 
 En pratique le responsable de documentation :
 - enregistre où/comment la documentation est en retard par rapport au projet;
@@ -1178,11 +1178,11 @@ Une des tâches courante du gestionnaire est de **gérer les *"mauvais"* tickets
 
 </br>
 
-Une autre tâche classqiue consiste à **établir les connections entre problèmes et développeurs** :
+Une autre tâche classique consiste à **établir les connections entre problèmes et développeurs** :
 - les développeurs ne peuvent pas être conscient de toutes les issues !
 - le gestionnaire connaît l'équipe de développement et peut diriger l'attention de certains développeurs sur un ticket spécifique
 
-:thought_balloon: Il est intéressant que le gestionnaire soit lui même un développeur. Ainsi, il devrait conscient de la sensibilité des autres développeurs, de leur tempérament et désirs.
+:thought_balloon: Il est intéressant que le gestionnaire soit lui même un développeur. Ainsi, il devrait être conscient de la sensibilité des autres développeurs, de leur tempérament et désirs.
 
 ---
 
