@@ -12,6 +12,7 @@ import sys
 try:
     from bataille_navale import creer_grille, placer_bateaux
 except ImportError:
+
     from src.bataille_navale import creer_grille, placer_bateaux
 
 
@@ -40,6 +41,23 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
         self.status.set("Prêt")
         self.status_label = tk.Label(master, textvariable=self.status)
         self.status_label.pack(pady=5)
+        rules_text = (
+            "Bienvenue à la bataille navale ! ⚓\n\n"
+            "Règles :\n"
+            "~ : mer\n"
+            "X : bateau touché\n"
+            "O : tir raté\n\n"
+            "Essayez de couler tous les bateaux !"
+        )
+
+        self.rules_label = tk.Label(
+            master,
+            text=rules_text,
+            font=("Arial", 10),
+            justify="left",   
+            fg="darkblue"     
+        )
+        self.rules_label.pack(pady=10)
 
         # Compteurs de tirs et de touches
         self.tirs = 0
@@ -51,6 +69,7 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
 
         # Liste 2D de boutons (widgets) et grille logique
         self.buttons = []
+
         self.grille = creer_grille(self.size)
         placer_bateaux(self.grille, self.boats)
 
@@ -97,6 +116,7 @@ class GuiApp:  # pylint: disable=too-many-instance-attributes
         self.compteur.set(f"Tirs : {self.tirs} | Touches : {self.touches}")
 
     def new_game(self):
+
         """Réinitialiser la grille et les compteurs pour une nouvelle partie."""
         self.grille = creer_grille(self.size)
         placer_bateaux(self.grille, self.boats)
